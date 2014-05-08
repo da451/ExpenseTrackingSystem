@@ -37,6 +37,8 @@ namespace ExpenseTrackingSystem.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
 
             SimpleIoc.Default.Register<LogInViewModel>();
+
+            SimpleIoc.Default.Register<TagsViewModel>();
             
             string str =
                 @"Data Source = C:\Documents and Settings\Jim\Мои документы\Visual Studio 2005\Projects\TEST\ExpenseTrackingSystem\ExpenseTrackingSystem\MyDB.sdf";
@@ -63,6 +65,38 @@ namespace ExpenseTrackingSystem.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<LogInViewModel>();
+            }
+        }
+
+        public TagsViewModel Tags
+        {
+            get
+            {
+                TagsViewModel tags = ServiceLocator.Current.GetInstance<TagsViewModel>();
+
+                if (ViewModelBase.IsInDesignModeStatic)
+                {
+                    tags.Tags.Add(new TagModel()
+                    {
+                        Name = "Food",
+                        TagID = 1
+                    });
+
+                    tags.Tags.Add(new TagModel()
+                    {
+                        Name = "Car",
+                        TagID = 2
+                    });
+
+                    tags.Tags.Add(new TagModel()
+                    {
+                        Name = "Pet",
+                        TagID = 3
+                    });
+                }
+
+                return tags;
+
             }
         }
 

@@ -12,11 +12,6 @@
         Title="Expenses Form"
         DataContext="{Binding Expenses, Source={StaticResource Locator}}" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-            <Setter Property="Padding" Value="0 5 0 0"></Setter>
-            <Setter Property="FontWeight" Value="Heavy"></Setter>
-        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,13 +26,15 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="LOAD" Command="{Binding LoadExpensesCommand}" Padding="0" Margin="3"></Button>
-                    <Button Grid.Column="1" Content="NEW EXPENSE" Margin="0,3,3,3" Padding="0"></Button>
-                <Button Grid.Column="2" Content="EDIT TAGS" Margin="0,3,3,3" Padding="0"></Button>
-                <Button Grid.Column="3" Content="STATISTICS" Margin="0,3,3,3" Padding="0"></Button>
-                <Button Grid.Column="4" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+                    
+                <Button Grid.Column="0" Content="NEW EXPENSE" Margin="3,3,3,3" Padding="0"></Button>
+
+                <Button Grid.Column="1" Content="EDIT TAGS" Command="{Binding OpenTagsFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+                    
+                <Button Grid.Column="2" Content="STATISTICS" Margin="0,3,3,3" Padding="0"></Button>
+                    
+                <Button Grid.Column="3" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
                 </Grid>
             </Border>
 
@@ -49,6 +46,7 @@
                             <Border BorderThickness="1" BorderBrush="DimGray" Margin="2">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Tag:" FontSize="14" VerticalAlignment="Bottom"></Label>
+                                    
                                     <TextBlock Text="{Binding Path=Tag.Name}" FontSize="14" Style="{StaticResource TextBlockStyle}"></TextBlock>
                                 </StackPanel>
                             </Border>
@@ -65,7 +63,6 @@
                                     <RowDefinition ></RowDefinition>
                                 </Grid.RowDefinitions>
 
-
                                 <Label Content="Date:" FontSize="12" VerticalAlignment="Bottom"></Label>
 
                                 <TextBlock Grid.Column="1" Text="{Binding Path=Date, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource TextBlockStyle}"></TextBlock>
@@ -77,21 +74,11 @@
                                 <Label Grid.Row="2"  Content="Comment:" FontSize="12"></Label>
 
                                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Comment}" Style="{StaticResource TextBlockStyle}"></TextBlock>
-
                             </Grid>
-
-
-
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
-
-        <!--<StackPanel Grid.Column="1" Orientation="Vertical">
-            <Button Content="Load" Command="{Binding Path=LoadExpensesCommand}"></Button>
-        </StackPanel>-->
-        
     </Grid>
 </Window>

@@ -7,8 +7,10 @@
         mc:Ignorable="d ignore"
         Height="400"
         Width="300"
+        MinHeight="400"
+        MinWidth="300"
         Title="Tags Form"
-        DataContext="{Binding ViewModelName, Source={StaticResource Locator}}">
+        DataContext="{Binding Tags, Source={StaticResource Locator}}">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -19,27 +21,70 @@
             <Border  HorizontalAlignment="Stretch" DockPanel.Dock="Right" BorderThickness="1" BorderBrush="DimGray" Margin="1 7 1 1" Padding="5" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="LOAD"  Padding="0" Margin="3"></Button>
-                    <Button Grid.Column="1" Content="NEW TAG" Margin="0,3,3,3" Padding="0"></Button>
-                    <Button Grid.Column="2" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+                    
+                    <Border  Grid.Column="0" BorderBrush="DimGray" BorderThickness="2">
+                        <DockPanel LastChildFill="True">
+                            <Button DockPanel.Dock="Right" Content="NEW TAG"  Margin="3" Padding="0" Command="{Binding SaveTagCommand}"></Button>
+                            
+                            <TextBox Margin="3,3,0,3" Text="{Binding Path=NewTag, Converter={StaticResource TextToTagConverter}}" ></TextBox>
+                        </DockPanel>
+                    </Border>
+                    
+                    <Button Grid.Column="1" Content="CLOSE" Command="{Binding CloseFormCommand}" Margin="3" Padding="0"></Button>
                 </Grid>
             </Border>
 
-            <ListView Grid.Row="1" ItemsSource="" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListView Grid.Row="1" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
+                        
                         <Border BorderBrush="DimGray" BorderThickness="3" Margin="4" >
+                            
+                            <StackPanel Orientation="Vertical">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" ></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Content="TAG:"></Label>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource TextBlockStyle}" ></TextBlock>
+
+                                    <TextBox Grid.Column="1" 
+                                             Text="{Binding Path=DataContext.TagName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}" 
+                                             Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Converter={StaticResource VisibilityConverter}}"></TextBox>
+
+                                    <Grid Grid.Column="2" HorizontalAlignment="Stretch">
+                                        
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Button x:Name="SaveButton" Content="SAVE" Margin="4,4,4,4"
+                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+                                            Converter={StaticResource VisibilityConverter}}"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.UpdateTagCommand}"/>
+                                        
+                                        <Button Grid.Column="1" Name="DelButton" Content="DELETE" Margin="4,4,4,4"
+                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+                                            Converter={StaticResource VisibilityConverter}}"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DeleteTagCommand}"/>
+                                    </Grid>
+                                    
+                                </Grid>
+                                
+                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
             </ListView>
-
         </Grid>
-
     </Grid>
 </Window>

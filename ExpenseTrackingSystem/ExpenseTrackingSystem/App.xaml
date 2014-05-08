@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validation ="clr-namespace:ExpenseTrackingSystem.Validation"
              xmlns:ets="clr-namespace:ExpenseTrackingSystem"
+             xmlns:converter="clr-namespace:ExpenseTrackingSystem.Converter"
              StartupUri="View/LogInView.xaml"
              mc:Ignorable="d">
     
@@ -27,6 +28,32 @@
                 <AdornedElementPlaceholder/>
             </DockPanel>
         </ControlTemplate>
+
+        <converter:VisibilityConverter x:Key="VisibilityConverter"></converter:VisibilityConverter>
+
+        <converter:TextToTagConverter x:Key="TextToTagConverter"></converter:TextToTagConverter>
+
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Padding" Value="0 5 0 0"></Setter>
+            <Setter Property="FontWeight" Value="Heavy"></Setter>
+        </Style>
+
+        <Style x:Key="HeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        
+        <Style x:Key="HidenButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding
+                    RelativeSource={RelativeSource
+                        Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                        Value="True">
+                    <Setter TargetName="{Binding Path=SaveButton}" Property="Visibility" Value="Visible"/>
+
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
     
 </Application>

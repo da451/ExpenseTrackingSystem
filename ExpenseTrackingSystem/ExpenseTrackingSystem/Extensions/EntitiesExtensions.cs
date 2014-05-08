@@ -14,5 +14,17 @@ namespace ExpenseTrackingSystem.Extensions
         {
             return ConvertingUtil.ToModel(model);
         }
+
+        public static TagModel ToModel(this Tag model)
+        {
+            return ConvertingUtil.ToModel(model);
+        }
+
+        public static UserModel ToModel(this User model)
+        {
+            return ConvertingUtil.ToModel(model);
+        }
+
+
     }
 }

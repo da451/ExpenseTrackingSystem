@@ -12,18 +12,16 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace ExpenseTrackingSystem.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that a View can data bind to.
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class ExpensesViewModel : ViewModelBase
     {
         public ExpensesViewModel()
         {
             _listOfExpenses =new ObservableCollection<ExpenseModel>();
+
+            Load();
         }
+
+
 
         public const string ListOfExpensesPropertyName = "ListOfExpenses";
 
@@ -61,36 +59,44 @@ namespace ExpenseTrackingSystem.ViewModel
                     ?? (_loadExpensesCommand = new RelayCommand(
                                           () =>
                                           {
-                                              UnitOfWork uow = new UnitOfWork();
-
-                                              try
-                                              {
-                                                  RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
-
-                                                  uow.BeginTransaction();
-
-                                                  int userID = AuthorizationService.GetUserID();
-
-                                                  IEnumerable<Expense> expenses = repositoryExpense.LoadUserExpenses(userID);
-
-                                                  foreach (var expense in expenses)
-                                                  {
-                                                      _listOfExpenses.Add(expense.ToModel());
-                                                  }
-
-                                                  uow.Commit();
-                                              }
-                                              catch
-                                              {
-                                                  uow.RollBack();
-                                                  throw;
-                                              }
-
                                           }));
             }
         }
 
 
+
+        private void Load()
+        {
+            UnitOfWork uow = new UnitOfWork();
+
+            try
+            {
+                RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
+
+                uow.BeginTransaction();
+
+                int userID = AuthorizationService.GetUserID();
+
+                IEnumerable<Expense> expenses = repositoryExpense.LoadUserExpenses(userID);
+
+                foreach (var expense in expenses)
+                {
+                    _listOfExpenses.Add(expense.ToModel());
+                }
+
+                uow.Commit();
+            }
+            catch
+            {
+                uow.RollBack();
+                throw;
+            }
+
+
+        }
+
+
+        
         private RelayCommand _closeFormCommand;
 
         public RelayCommand CloseFormCommand
@@ -104,5 +110,17 @@ namespace ExpenseTrackingSystem.ViewModel
         }
 
 
+
+        private RelayCommand _openTagsFormCommand;
+
+        public RelayCommand OpenTagsFormCommand
+        {
+            get
+            {
+                return _openTagsFormCommand
+                    ?? (_openTagsFormCommand = new RelayCommand(
+                                          () => Messenger.Default.Send<NotificationMessage>(new NotificationMessage(MessengerMessage.OPEN_TAGS_FORM))));
+            }
+        }
     }
 }

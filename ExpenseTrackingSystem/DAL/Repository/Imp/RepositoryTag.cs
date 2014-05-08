@@ -1,4 +1,6 @@
-﻿using DAL.Entities;
+﻿using System.Collections.Generic;
+using DAL.Entities;
+using NHibernate.Criterion;
 
 namespace DAL.Repository.Imp
 {
@@ -27,6 +29,12 @@ namespace DAL.Repository.Imp
         {
             return new RepositoryUser(this._unitOfWork).Load(userID);
         }
+
+        public IEnumerable<Tag> LoadUserTags(int userID)
+        {
+            return _unitOfWork.Session.CreateCriteria<Tag>().Add(Restrictions.Eq("User.UserID", userID)).List<Tag>();
+        }
+
 
     }
 }

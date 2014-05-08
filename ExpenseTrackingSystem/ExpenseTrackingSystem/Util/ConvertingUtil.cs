@@ -42,7 +42,12 @@ namespace ExpenseTrackingSystem.Util
 
         public static IList<Tag> ToEntities(IList<TagModel> model)
         {
-            IList<Tag> resualt = model.Select(o => new Tag(o.TagID, o.Name, ToEntities(o.User))).ToList<Tag>();
+            IList<Tag> resualt = new List<Tag>();
+
+            if (model != null)
+            {
+                resualt = model.Select(o => new Tag(o.TagID, o.Name, ToEntities(o.User))).ToList<Tag>();
+            }
 
             return resualt;
         }

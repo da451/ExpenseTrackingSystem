@@ -53,6 +53,7 @@ namespace DAL
                         .Database(dbConfig)
                         .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
                         .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Tag>())
+                        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Expense>())
                         .ExposeConfiguration(x => x.SetProperty("connection.release_mode", "on_close"))
                         .BuildSessionFactory(); 
                 }

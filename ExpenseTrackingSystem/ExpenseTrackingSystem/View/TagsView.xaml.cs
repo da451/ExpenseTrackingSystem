@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using ExpenseTrackingSystem.Notifications;
+using ExpenseTrackingSystem.ViewModel;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ExpenseTrackingSystem.View
 {
@@ -13,6 +16,24 @@ namespace ExpenseTrackingSystem.View
         public TagsView()
         {
             InitializeComponent();
+
+            DataContext = new TagsViewModel();
+
+            Loaded += (s, e) =>
+            {
+                Messenger.Default.Register<NotificationMessage>(this, message =>
+                {
+                    if (message.Notification == MessengerMessage.CLOSE_TAGS_FORM)
+                    {
+                        Close();
+                    }
+                });
+            };
+
+            Closed += (s, e) =>
+            {
+                Messenger.Default.Unregister(this);
+            };
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using DAL.Repository.Imp;
+using ExpenseTrackingSystem.Extensions;
+using GalaSoft.MvvmLight;
 
 namespace ExpenseTrackingSystem.Model
 {
@@ -79,5 +82,94 @@ namespace ExpenseTrackingSystem.Model
                 RaisePropertyChanged(UserPropertyName);
             }
         }
+
+        public void Update()
+        {
+            UnitOfWork uow = new UnitOfWork();
+            
+            RepositoryTag repositoryTag = new RepositoryTag(uow);
+            
+            try
+            {
+                uow.BeginTransaction();
+
+                repositoryTag.Update(this.ToEntity());
+
+                uow.Commit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                uow.RollBack();
+
+                throw;
+            }
+        }
+
+        public void Delete()
+        {
+            UnitOfWork uow = new UnitOfWork();
+
+            RepositoryTag repositoryTag = new RepositoryTag(uow);
+
+            try
+            {
+                uow.BeginTransaction();
+
+                repositoryTag.Delete(this.ToEntity());
+
+                uow.Commit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                uow.RollBack();
+
+                throw;
+            }
+        }
+
+        public int Save()
+        {
+            UnitOfWork uow = new UnitOfWork();
+
+            RepositoryTag repositoryTag = new RepositoryTag(uow);
+
+            RepositoryUser repositoryUser = new RepositoryUser(uow);
+
+            int tagID = -1;
+
+            int userID = AuthorizationService.GetUserID();
+
+            try
+            {
+
+                uow.BeginTransaction();
+
+                UserModel user = repositoryUser.Get(userID).ToModel();
+
+                User = user;
+
+                tagID = repositoryTag.Save(this.ToEntity());
+
+                uow.Commit();
+
+                this.TagID = tagID;
+
+                return tagID;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                uow.RollBack();
+
+                throw;
+            }
+
+        } 
+
     }
 }

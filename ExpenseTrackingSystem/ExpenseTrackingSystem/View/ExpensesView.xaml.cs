@@ -29,6 +29,13 @@ namespace ExpenseTrackingSystem.View
                             this.Close();
                         }
                     }
+
+                    if (message.Notification == MessengerMessage.OPEN_TAGS_FORM)
+                    {
+                        TagsView tagsView = new TagsView();
+
+                        tagsView.ShowDialog();
+                    }
                 });
             };
 
