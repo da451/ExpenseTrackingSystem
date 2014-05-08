@@ -36,6 +36,13 @@ namespace ExpenseTrackingSystem.View
 
                         tagsView.ShowDialog();
                     }
+
+                    if (message.Notification == MessengerMessage.OPEN_EXPENSE_EDIT_FORM)
+                    {
+                        ExpenseEditView expenseEditView = new ExpenseEditView();
+
+                        expenseEditView.ShowDialog();
+                    }
                 });
             };
 

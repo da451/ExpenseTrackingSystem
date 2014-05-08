@@ -122,5 +122,22 @@ namespace ExpenseTrackingSystem.ViewModel
                                           () => Messenger.Default.Send<NotificationMessage>(new NotificationMessage(MessengerMessage.OPEN_TAGS_FORM))));
             }
         }
+
+
+
+        private RelayCommand _openExpenseEditFormCommand;
+
+        public RelayCommand OpenExpenseEditFormCommand
+        {
+            get
+            {
+                return _openExpenseEditFormCommand
+                    ?? (_openExpenseEditFormCommand = new RelayCommand(
+                                          () =>
+                                          {
+                                              Messenger.Default.Send<NotificationMessage>(new NotificationMessage(MessengerMessage.OPEN_EXPENSE_EDIT_FORM));
+                                          }));
+            }
+        }
     }
 }
