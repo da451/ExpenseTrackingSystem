@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using DAL.Entities;
 using NHibernate.Linq;
 
 namespace DAL.Repository.Imp
@@ -27,9 +25,9 @@ namespace DAL.Repository.Imp
             return _unitOfWork.Session.Load<T>(id);
         }
 
-        public void Save(T value)
+        public int Save(T value)
         {
-            _unitOfWork.Session.Save(value);
+            return (int)_unitOfWork.Session.Save(value);
         }
 
         public void Update(T value)

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using DAL.Entities;
 
 namespace DAL.Repository
 {
@@ -11,7 +9,7 @@ namespace DAL.Repository
 
         T Load(int id);
 
-        void Save(T value);
+        int Save(T value);
 
         void Update(T value);
 

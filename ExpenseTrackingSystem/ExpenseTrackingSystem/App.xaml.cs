@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using GalaSoft.MvvmLight.Threading;
 
 namespace ExpenseTrackingSystem
@@ -11,6 +12,13 @@ namespace ExpenseTrackingSystem
         static App()
         {
             DispatcherHelper.Initialize();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            Principal principal = new Principal();
+            AppDomain.CurrentDomain.SetThreadPrincipal(principal);
         }
     }
 }

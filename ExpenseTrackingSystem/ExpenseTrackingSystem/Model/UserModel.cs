@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 
 namespace ExpenseTrackingSystem.Model
@@ -109,5 +106,32 @@ namespace ExpenseTrackingSystem.Model
                 RaisePropertyChanged(PasswordPropertyName);
             }
         }
+
+
+
+        public const string TagsPropertyName = "Tags";
+
+        private ObservableCollection<TagModel> _tags;
+
+        public ObservableCollection<TagModel> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+
+            set
+            {
+                if (_tags == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(TagsPropertyName);
+                _tags = value;
+                RaisePropertyChanged(TagsPropertyName);
+            }
+        }
+
     }
 }

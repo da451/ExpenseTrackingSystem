@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using DAL.Entities;
+﻿using DAL.Entities;
 using FluentNHibernate.Mapping;
-using NHibernate.Mapping;
 
 namespace DAL.Mapping
 {
@@ -22,6 +16,10 @@ namespace DAL.Mapping
             Map(x => x.Login).Column("LOGIN");
 
             Map(x => x.Password).Column("PASSWORD");
+
+            HasMany<Tag>(x => x.Tags)
+                .KeyColumn("USER_ID")
+                .Inverse().AsBag();
         }
     }
 }

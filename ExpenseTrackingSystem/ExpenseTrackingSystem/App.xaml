@@ -4,6 +4,8 @@
              xmlns:vm="clr-namespace:ExpenseTrackingSystem.ViewModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validation ="clr-namespace:ExpenseTrackingSystem.Validation"
+             xmlns:ets="clr-namespace:ExpenseTrackingSystem"
              StartupUri="View/LogInView.xaml"
              mc:Ignorable="d">
     
@@ -11,6 +13,20 @@
         <!--Global View Model Locator-->
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
+        <validation:NotEmptyValidationRule x:Key="NotEmptyValidationRule"></validation:NotEmptyValidationRule>
+        
+        <validation:NoSpacesValidationRule x:Key="NoSpacesValidationRule"></validation:NoSpacesValidationRule>
+            
+        <ControlTemplate x:Key="ValidationErrorTemplate">
+            <DockPanel>
+                <Border VerticalAlignment="Stretch" DockPanel.Dock="Left">
+                    <Label Foreground="Red" VerticalAlignment="Center" FontSize="14" Content="*" 
+                           ToolTip="{Binding Path=/ErrorContent}">
+                    </Label>
+                </Border>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
     </Application.Resources>
     
 </Application>

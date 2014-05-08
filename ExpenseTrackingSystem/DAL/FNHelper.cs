@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL.Entities;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -56,7 +52,7 @@ namespace DAL
                     _sessionFactory = Fluently.Configure()
                         .Database(dbConfig)
                         .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
-                        //.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Employee>())
+                        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Tag>())
                         .ExposeConfiguration(x => x.SetProperty("connection.release_mode", "on_close"))
                         .BuildSessionFactory(); 
                 }

@@ -6,22 +6,29 @@
         xmlns:ignore="http://www.ignore.com"
         mc:Ignorable="d ignore"
         Title="Registration Form"
-        Width="230"
+        Width="250"
         Height="250"
-        DataContext="{Binding ViewModelName, Source={StaticResource Locator}}" ResizeMode="NoResize">
+        xmlns:ets ="clr-namespace:ExpenseTrackingSystem"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="Label" >
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="TextBox" >
+        <Style TargetType="TextBox">
             <Setter Property="Margin" Value="0 7 7 7" />
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         </Style>
+        
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="0 7 7 7" />
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition Width="70"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -35,17 +42,31 @@
         <Label Grid.Row="1" Content="Login:"></Label>
         <Label Grid.Row="2" Content="Password:"></Label>
         <Label Grid.Row="3" Content="Confirm:"></Label>
-        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
-        <TextBox Grid.Row="2" Grid.Column="1"></TextBox>
-        <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
+        
+        <TextBox Grid.Row="0" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                 Text="{Binding FIO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        
+        <TextBox Grid.Row="1" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" 
+                 Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        
+        <PasswordBox Grid.Row="2" Grid.Column="1" PasswordChar="*" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                     ets:PasswordBoxAssistant.BindPassword="true"  
+                     ets:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+            ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        
+        <PasswordBox Grid.Row="3" Grid.Column="1" PasswordChar="*" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                     ets:PasswordBoxAssistant.BindPassword="true"
+                     ets:PasswordBoxAssistant.BoundPassword="{Binding Path=ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+            ValidatesOnDataErrors=True, ValidatesOnExceptions=True}">
+        </PasswordBox>
+        
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button  Content="Registration" Margin="4,4,2,4"></Button>
-            <Button  Grid.Column="1" Content="Cancel" Margin="2,4,4,4"></Button>
+            <Button  Content="Registration" Margin="4,4,2,4" Command="{Binding UserRegistrationCommand}"></Button>
+            <Button  Grid.Column="1" Content="Cancel" Margin="2,4,4,4" Command="{Binding Path=CloseRegistrationFormCommand}"></Button>
         </Grid>
 
     </Grid>

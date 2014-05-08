@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using DAL.Entities;
 using DAL.Util;
-using FluentNHibernate.Conventions;
 using NHibernate.Criterion;
-using NHibernate.Util;
 
 namespace DAL.Repository.Imp
 {
@@ -39,12 +34,15 @@ namespace DAL.Repository.Imp
                 .Add(Restrictions.Eq("Login", login)).List<User>().Any(); 
         }
 
-        public bool LogIn(string login, string password)
+        public int LogIn(string login, string password)
         {
-            return _unitOfWork.Session.CreateCriteria<User>()
+            var user = _unitOfWork.Session.CreateCriteria<User>()
                 .Add(Restrictions.And(
-                    Restrictions.Eq("Login", login), 
-                    Restrictions.Eq("Password", EncryptUtil.EncodePassword(password)))).List().Any();
+                    Restrictions.Eq("Login", login),
+                    Restrictions.Eq("Password", EncryptUtil.EncodePassword(password)))).SetMaxResults(1)
+                .UniqueResult<User>();
+            var ex = _unitOfWork.Session.CreateCriteria<Expense>().List<Expense>();
+            return user != null ? user.UserID : -1;
         }
     }
 }

@@ -9,10 +9,13 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
+using System;
+using System.IO.Packaging;
+using DAL;
+using ExpenseTrackingSystem.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using ExpenseTrackingSystem.Model;
 
 namespace ExpenseTrackingSystem.ViewModel
 {
@@ -29,18 +32,16 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
+            SimpleIoc.Default.Register<ExpensesViewModel>();
 
             SimpleIoc.Default.Register<MainViewModel>();
 
             SimpleIoc.Default.Register<LogInViewModel>();
+            
+            string str =
+                @"Data Source = C:\Documents and Settings\Jim\Мои документы\Visual Studio 2005\Projects\TEST\ExpenseTrackingSystem\ExpenseTrackingSystem\MyDB.sdf";
+
+            FNHHelper.CreateInstance(str);
         }
 
         /// <summary>
@@ -64,6 +65,64 @@ namespace ExpenseTrackingSystem.ViewModel
                 return ServiceLocator.Current.GetInstance<LogInViewModel>();
             }
         }
+
+        public ExpensesViewModel Expenses
+        {
+            get
+            {
+                ExpensesViewModel e = ServiceLocator.Current.GetInstance<ExpensesViewModel>();
+
+                if (ViewModelBase.IsInDesignModeStatic)
+                {
+                    UserModel user = new UserModel()
+                    {
+                        FIO = "Z D A",
+                        Login = "da451",
+                        UserID = 1
+                    };
+
+                    TagModel tag = new TagModel() {Name = "Food", TagID = 1, User = user};
+
+                    TagModel tag2 = new TagModel() { Name = "Car", TagID = 2, User = user };
+
+                    e.ListOfExpenses.Add(new ExpenseModel()
+                    {
+                        Comment = "Milk",
+                        Date = DateTime.Now,
+                        ExpenseID = 1,
+                        Spend = 451,
+                        Tag = tag,
+                        User = user
+                    });
+
+                    e.ListOfExpenses.Add(new ExpenseModel()
+                    {
+                        Comment = "Bread",
+                        Date = DateTime.Now,
+                        ExpenseID = 2,
+                        Spend = 100,
+                        Tag = tag,
+                        User = user
+                    });
+
+                    e.ListOfExpenses.Add(new ExpenseModel()
+                    {
+                        Comment = "Gas and alot of letters! And more... and more... and more... a littel more",
+                        Date = DateTime.Now,
+                        ExpenseID = 3,
+                        Spend = 2000,
+                        Tag = tag2,
+                        User = user
+                    });
+
+                }
+
+                return e;
+
+            }
+
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>

@@ -1,0 +1,97 @@
+﻿<Window x:Class="ExpenseTrackingSystem.View.ExpensesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        Height="600"
+        Width="450"
+        MinWidth="450"
+        MinHeight="600"
+        Title="Expenses Form"
+        DataContext="{Binding Expenses, Source={StaticResource Locator}}" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Padding" Value="0 5 0 0"></Setter>
+            <Setter Property="FontWeight" Value="Heavy"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+            <Border  HorizontalAlignment="Stretch" DockPanel.Dock="Right" BorderThickness="1" BorderBrush="DimGray" Margin="1 7 1 1" Padding="5" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="LOAD" Command="{Binding LoadExpensesCommand}" Padding="0" Margin="3"></Button>
+                    <Button Grid.Column="1" Content="NEW EXPENSE" Margin="0,3,3,3" Padding="0"></Button>
+                <Button Grid.Column="2" Content="EDIT TAGS" Margin="0,3,3,3" Padding="0"></Button>
+                <Button Grid.Column="3" Content="STATISTICS" Margin="0,3,3,3" Padding="0"></Button>
+                <Button Grid.Column="4" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+                </Grid>
+            </Border>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=ListOfExpenses}" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="DimGray" BorderThickness="3" Margin="4" >
+                        <StackPanel Orientation="Vertical">
+                            <Border BorderThickness="1" BorderBrush="DimGray" Margin="2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Tag:" FontSize="14" VerticalAlignment="Bottom"></Label>
+                                    <TextBlock Text="{Binding Path=Tag.Name}" FontSize="14" Style="{StaticResource TextBlockStyle}"></TextBlock>
+                                </StackPanel>
+                            </Border>
+
+                            <Grid VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition ></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                </Grid.RowDefinitions>
+
+
+                                <Label Content="Date:" FontSize="12" VerticalAlignment="Bottom"></Label>
+
+                                <TextBlock Grid.Column="1" Text="{Binding Path=Date, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+                                <Label Grid.Row="1" Content="Spend:" FontSize="12" VerticalAlignment="Bottom"></Label>
+
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Spend}" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+                                <Label Grid.Row="2"  Content="Comment:" FontSize="12"></Label>
+
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Comment}" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+                            </Grid>
+
+
+
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <!--<StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button Content="Load" Command="{Binding Path=LoadExpensesCommand}"></Button>
+        </StackPanel>-->
+        
+    </Grid>
+</Window>
