@@ -41,19 +41,7 @@
 
         <Style x:Key="HeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
-        </Style>
-        
-        <Style x:Key="HidenButtonStyle" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding
-                    RelativeSource={RelativeSource
-                        Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
-                        Value="True">
-                    <Setter TargetName="{Binding Path=SaveButton}" Property="Visibility" Value="Visible"/>
-
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        </Style>        
     </Application.Resources>
     
 </Application>

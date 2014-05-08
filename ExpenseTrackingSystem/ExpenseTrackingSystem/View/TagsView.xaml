@@ -10,7 +10,7 @@
         MinHeight="400"
         MinWidth="300"
         Title="Tags Form"
-        DataContext="{Binding Tags, Source={StaticResource Locator}}">
+        DataContext="{Binding Tags, Source={StaticResource Locator}}" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>

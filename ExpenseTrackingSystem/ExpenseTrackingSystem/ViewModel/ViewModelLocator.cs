@@ -39,11 +39,8 @@ namespace ExpenseTrackingSystem.ViewModel
             SimpleIoc.Default.Register<LogInViewModel>();
 
             SimpleIoc.Default.Register<TagsViewModel>();
-            
-            string str =
-                @"Data Source = C:\Documents and Settings\Jim\Мои документы\Visual Studio 2005\Projects\TEST\ExpenseTrackingSystem\ExpenseTrackingSystem\MyDB.sdf";
 
-            FNHHelper.CreateInstance(str);
+            FNHHelper.CreateInstance(Properties.Settings.Default.ConnectionString);
         }
 
         /// <summary>
