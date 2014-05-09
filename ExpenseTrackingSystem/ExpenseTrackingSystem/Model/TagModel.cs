@@ -169,7 +169,37 @@ namespace ExpenseTrackingSystem.Model
                 throw;
             }
 
-        } 
+        }
 
+        protected bool Equals(TagModel other)
+        {
+            return _tagID == other._tagID && string.Equals(_name, other._name);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TagModel) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_tagID*397) ^ (_name != null ? _name.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(TagModel left, TagModel right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(TagModel left, TagModel right)
+        {
+            return !Equals(left, right);
+        }
     }
 }

@@ -18,37 +18,40 @@ namespace ExpenseTrackingSystem.Model
             get
             {
                 return _loadExpensesCommand
-                    ?? (_loadExpensesCommand = new RelayCommand(
-                                          () =>
-                                          {
-                                              UnitOfWork uow = new UnitOfWork();
-
-                                              try
-                                              {
-                                                  RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
-
-                                                  uow.BeginTransaction();
-
-                                                  int userID = AuthorizationService.GetUserID();
-                                                  
-                                                  IEnumerable<Expense> expenses = repositoryExpense.LoadUserExpenses(userID);
-
-                                                  foreach (var expense in expenses)
-                                                  {
-                                                      this.Add(expense.ToModel());
-                                                  }
-                                                  
-                                                  
-                                                  uow.Commit();
-                                              }
-                                              catch
-                                              {
-                                                  uow.RollBack();
-                                                  throw;
-                                              }
-
-                                          }));
+                    ?? (_loadExpensesCommand = new RelayCommand(LoadExpenses));
             }
+        }
+
+        private void LoadExpenses()
+        {
+            UnitOfWork uow = new UnitOfWork();
+
+            Clear();
+
+            try
+            {
+                RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
+
+                uow.BeginTransaction();
+
+                int userID = AuthorizationService.GetUserID();
+
+                IEnumerable<Expense> expenses = repositoryExpense.LoadUserExpenses(userID);
+
+                foreach (var expense in expenses)
+                {
+                    Add(expense.ToModel());
+                }
+
+                uow.Commit();
+            }
+            catch
+            {
+                uow.RollBack();
+                throw;
+            }
+
+
         }
     }
 }

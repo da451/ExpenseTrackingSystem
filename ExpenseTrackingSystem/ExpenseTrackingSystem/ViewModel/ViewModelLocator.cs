@@ -13,6 +13,7 @@ using System;
 using System.IO.Packaging;
 using DAL;
 using ExpenseTrackingSystem.Model;
+using ExpenseTrackingSystem.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -39,6 +40,8 @@ namespace ExpenseTrackingSystem.ViewModel
             SimpleIoc.Default.Register<LogInViewModel>();
 
             SimpleIoc.Default.Register<TagsViewModel>();
+
+            SimpleIoc.Default.Register<ExpenseEditViewModel>();
 
             FNHHelper.CreateInstance(Properties.Settings.Default.ConnectionString);
         }
@@ -151,9 +154,15 @@ namespace ExpenseTrackingSystem.ViewModel
                 return e;
 
             }
-
         }
 
+        public ExpenseEditViewModel ExpenseEdit
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ExpenseEditViewModel>();
+            }
+        }
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>

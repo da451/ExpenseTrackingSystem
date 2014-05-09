@@ -40,9 +40,7 @@
             <ListView Grid.Row="1" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        
-                        <Border BorderBrush="DimGray" BorderThickness="3" Margin="4" >
-                            
+                        <Border Name="ItemBorder"  BorderBrush="DimGray" BorderThickness="3" Margin="4" >
                             <StackPanel Orientation="Vertical">
 
                                 <Grid>
@@ -54,34 +52,29 @@
 
                                     <Label Content="TAG:"></Label>
 
-                                    <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource TextBlockStyle}" ></TextBlock>
+                                    <TextBlock Grid.Column="1" Margin="3" Text="{Binding Name}" Style="{StaticResource TextBlockStyle}" 
+                                               Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}}"></TextBlock>
 
-                                    <TextBox Grid.Column="1" 
+                                    <TextBox Grid.Column="1" Margin="3"
                                              Text="{Binding Path=DataContext.TagName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}" 
                                              Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Converter={StaticResource VisibilityConverter}}"></TextBox>
 
-                                    <Grid Grid.Column="2" HorizontalAlignment="Stretch">
-                                        
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <Button x:Name="SaveButton" Content="SAVE" Margin="4,4,4,4"
+                                    <Button Grid.Column="2" x:Name="SaveButton" Content="SAVE" Margin="4,4,4,4"
                                                 Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
                                             Converter={StaticResource VisibilityConverter}}"
                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.UpdateTagCommand}"/>
-                                        
-                                        <Button Grid.Column="1" Name="DelButton" Content="DELETE" Margin="4,4,4,4"
-                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
-                                            Converter={StaticResource VisibilityConverter}}"
-                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DeleteTagCommand}"/>
-                                    </Grid>
+
                                     
                                 </Grid>
                                 
                             </StackPanel>
                         </Border>
+                        
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}, Path=IsSelected}" Value="True">
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DarkRed"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

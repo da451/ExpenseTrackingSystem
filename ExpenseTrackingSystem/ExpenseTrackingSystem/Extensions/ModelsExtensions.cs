@@ -16,5 +16,10 @@ namespace ExpenseTrackingSystem.Extensions
             return ConvertingUtil.ToEntities(model);
         }
 
+        public static Expense ToEntity(this ExpenseModel model)
+        {
+            return ConvertingUtil.ToEntities(model);
+        }
+
     }
 }

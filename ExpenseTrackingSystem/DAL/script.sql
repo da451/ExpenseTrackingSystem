@@ -26,7 +26,7 @@ CREATE TABLE [EXPENSES] (
   [EXPENSE_ID] int IDENTITY (1,1) NOT NULL
 , [SPEND] float NOT NULL
 , [DATE] datetime NOT NULL
-, [COMMENT] nvarchar(100) NOT NULL
+, [COMMENT] nvarchar(100)
 , [TAG_ID] int NOT NULL
 , [USER_ID] int NOT NULL
 );

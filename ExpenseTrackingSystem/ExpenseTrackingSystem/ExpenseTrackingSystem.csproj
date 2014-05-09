@@ -111,6 +111,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter\TextToTagConverter.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="ErrorHandlerHelper.cs" />
     <Compile Include="Extensions\EntitiesExtensions.cs" />
     <Compile Include="Extensions\ModelsExtensions.cs" />
     <Compile Include="Identity.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Model\ExpenseCollection.cs" />
     <Compile Include="Model\TagModel.cs" />
     <Compile Include="Model\ExpenseModel.cs" />
+    <Compile Include="Model\TagCollection.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Notifications\MessengerMessage.cs" />
     <Compile Include="PasswordBoxAssistant.cs" />

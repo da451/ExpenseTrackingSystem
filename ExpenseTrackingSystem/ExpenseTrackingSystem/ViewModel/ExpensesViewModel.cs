@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using DAL.Entities;
 using DAL.Repository.Imp;
 using ExpenseTrackingSystem.Extensions;
@@ -16,18 +17,18 @@ namespace ExpenseTrackingSystem.ViewModel
     {
         public ExpensesViewModel()
         {
-            _listOfExpenses =new ObservableCollection<ExpenseModel>();
+            _listOfExpenses =new ExpenseCollection();
 
-            Load();
+            _listOfExpenses.LoadExpensesCommand.Execute(null);
         }
 
 
 
         public const string ListOfExpensesPropertyName = "ListOfExpenses";
 
-        private ObservableCollection<ExpenseModel> _listOfExpenses;
+        private ExpenseCollection _listOfExpenses;
 
-        public ObservableCollection<ExpenseModel> ListOfExpenses
+        public ExpenseCollection ListOfExpenses
         {
             get
             {
@@ -49,54 +50,33 @@ namespace ExpenseTrackingSystem.ViewModel
 
 
 
-        private RelayCommand _loadExpensesCommand;
 
-        public RelayCommand LoadExpensesCommand
+        public const string SelectedExpensePropertyName = "SelectedExpense";
+
+        private ExpenseModel _selectedExpense;
+
+        public ExpenseModel SelectedExpense
         {
             get
             {
-                return _loadExpensesCommand
-                    ?? (_loadExpensesCommand = new RelayCommand(
-                                          () =>
-                                          {
-                                          }));
+                return _selectedExpense;
             }
-        }
 
-
-
-        private void Load()
-        {
-            UnitOfWork uow = new UnitOfWork();
-
-            try
+            set
             {
-                RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
-
-                uow.BeginTransaction();
-
-                int userID = AuthorizationService.GetUserID();
-
-                IEnumerable<Expense> expenses = repositoryExpense.LoadUserExpenses(userID);
-
-                foreach (var expense in expenses)
+                if (_selectedExpense == value)
                 {
-                    _listOfExpenses.Add(expense.ToModel());
+                    return;
                 }
 
-                uow.Commit();
+                RaisePropertyChanging(SelectedExpensePropertyName);
+                _selectedExpense = value;
+                RaisePropertyChanged(SelectedExpensePropertyName);
             }
-            catch
-            {
-                uow.RollBack();
-                throw;
-            }
-
-
         }
 
 
-        
+       
         private RelayCommand _closeFormCommand;
 
         public RelayCommand CloseFormCommand
@@ -119,25 +99,83 @@ namespace ExpenseTrackingSystem.ViewModel
             {
                 return _openTagsFormCommand
                     ?? (_openTagsFormCommand = new RelayCommand(
-                                          () => Messenger.Default.Send<NotificationMessage>(new NotificationMessage(MessengerMessage.OPEN_TAGS_FORM))));
+                                          () => Messenger.Default.Send<NotificationMessageAction>(
+                                              new NotificationMessageAction(MessengerMessage.OPEN_TAGS_FORM, ReloadExpenses))));
             }
         }
 
 
 
-        private RelayCommand _openExpenseEditFormCommand;
+        private RelayCommand _createNewExpenseCommand;
 
-        public RelayCommand OpenExpenseEditFormCommand
+        public RelayCommand CreateNewExpenseCommand
         {
             get
             {
-                return _openExpenseEditFormCommand
-                    ?? (_openExpenseEditFormCommand = new RelayCommand(
+                return _createNewExpenseCommand
+                    ?? (_createNewExpenseCommand = new RelayCommand(
                                           () =>
                                           {
-                                              Messenger.Default.Send<NotificationMessage>(new NotificationMessage(MessengerMessage.OPEN_EXPENSE_EDIT_FORM));
+                                              Messenger.Default.Send<NotificationMessageAction>(
+                                                  new NotificationMessageAction(MessengerMessage.OPEN_EXPENSE_EDIT_FORM, ReloadExpenses));
                                           }));
             }
+        }
+
+
+        private RelayCommand _updateExpenseCommand;
+
+        public RelayCommand UpdateExpenseCommand
+        {
+            get
+            {
+                return _updateExpenseCommand
+                    ?? (_updateExpenseCommand = new RelayCommand(
+                                          () =>
+                                          {
+                                              Messenger.Default.Send<NotificationMessageAction>(
+                                                  new NotificationMessageAction(SelectedExpense.ExpenseID, MessengerMessage.OPEN_EXPENSE_EDIT_FORM, ReloadExpenses));
+                                          }));
+            }
+        }
+
+        private RelayCommand _deleteExpenseCommand;
+
+        /// <summary>
+        /// Gets the DeleteExpenseCommand.
+        /// </summary>
+        public RelayCommand DeleteExpenseCommand
+        {
+            get
+            {
+                return _deleteExpenseCommand
+                    ?? (_deleteExpenseCommand = new RelayCommand(
+                                          () =>
+                                          {
+                                              SelectedExpense.Delete();
+
+                                              _listOfExpenses.Remove(SelectedExpense);
+
+                                              SelectedExpense = null;
+                                          }));
+            }
+        }
+
+        private void ReloadExpenses()
+        {
+            int selectedExpenseID = -1;
+
+            if (SelectedExpense != null)
+            {
+                selectedExpenseID = SelectedExpense.ExpenseID;
+            }
+            _listOfExpenses.LoadExpensesCommand.Execute(null);
+
+            if (selectedExpenseID > 0)
+            {
+                SelectedExpense = _listOfExpenses.Where(o => o.ExpenseID == selectedExpenseID).FirstOrDefault();
+            }
+
         }
     }
 }

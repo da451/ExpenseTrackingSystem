@@ -27,8 +27,8 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
-                <Button Grid.Column="0" Content="NEW EXPENSE" Margin="3" Padding="0" Command="{Binding OpenExpenseEditFormCommand}" ></Button>
+
+                <Button Grid.Column="0" Content="NEW EXPENSE" Margin="3" Padding="0" Command="{Binding CreateNewExpenseCommand}" ></Button>
 
                 <Button Grid.Column="1" Content="EDIT TAGS" Command="{Binding OpenTagsFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
                     
@@ -38,17 +38,32 @@
                 </Grid>
             </Border>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=ListOfExpenses}" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=ListOfExpenses}" SelectedItem="{Binding Path=SelectedExpense, Mode=TwoWay}"
+                  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="DimGray" BorderThickness="3" Margin="4" >
+                    <Border Name="ItemBorder"  BorderBrush="DimGray" BorderThickness="3" Margin="4" >
                         <StackPanel Orientation="Vertical">
-                            <Border BorderThickness="1" BorderBrush="DimGray" Margin="2">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Tag:" FontSize="14" VerticalAlignment="Bottom"></Label>
+                            <Border Name="ItemBorderTag" BorderThickness="1" BorderBrush="DimGray" Margin="2">
+                                <DockPanel LastChildFill="True">
+                                    <Label Content="Tag:" FontSize="14" VerticalAlignment="Bottom" DockPanel.Dock="Left"></Label>
+
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                        <Button  Width="50"  Content="EDIT" Margin="3"
+                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+                                            Converter={StaticResource VisibilityConverter}}"
+                                                 Command="{Binding Path=DataContext.UpdateExpenseCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"/>
+                                        <Button  Width="50"  Content="DELETE" Margin="0,3,3,3"
+                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+                                            Converter={StaticResource VisibilityConverter}}"
+                                                 Command="{Binding Path=DataContext.DeleteExpenseCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"/>
+
+                                    </StackPanel>
+
+
+                                    <TextBlock Text="{Binding Path=Tag.Name}" FontSize="14" Style="{StaticResource TextBlockStyle}" ></TextBlock>
                                     
-                                    <TextBlock Text="{Binding Path=Tag.Name}" FontSize="14" Style="{StaticResource TextBlockStyle}"></TextBlock>
-                                </StackPanel>
+                                </DockPanel>
                             </Border>
 
                             <Grid VerticalAlignment="Top">
@@ -77,6 +92,12 @@
                             </Grid>
                         </StackPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}, Path=IsSelected}" Value="True">
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DarkRed"></Setter>
+                            <Setter TargetName="ItemBorderTag" Property="BorderBrush" Value="DarkRed"></Setter>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

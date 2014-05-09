@@ -21,16 +21,17 @@ namespace ExpenseTrackingSystem.ViewModel
     {
         public TagsViewModel()
         {
-            Tags = new ObservableCollection<TagModel>();
-            Load();
+            Tags = new TagCollection();
+
+            Tags.LoadTagsCommand.Execute(null);
         }
 
 
         public const string TagsPropertyName = "Tags";
 
-        private ObservableCollection<TagModel> _tags;
+        private TagCollection _tags;
 
-        public ObservableCollection<TagModel> Tags
+        public TagCollection Tags
         {
             get
             {
@@ -142,38 +143,6 @@ namespace ExpenseTrackingSystem.ViewModel
             }
         }
 
-
-
-        private void Load()
-        {
-            UnitOfWork uow = new UnitOfWork();
-
-            _tags.Clear();
-
-            try
-            {
-                RepositoryTag repositoryTag = new RepositoryTag(uow);
-
-                uow.BeginTransaction();
-
-                int userID = AuthorizationService.GetUserID();
-
-                IEnumerable<Tag> tags = repositoryTag.LoadUserTags(userID);
-
-                foreach (var tag in tags)
-                {
-                    _tags.Add(tag.ToModel());
-                }
-
-                uow.Commit();
-            }
-            catch
-            {
-                uow.RollBack();
-                throw;
-            }
-
-        }
 
 
 

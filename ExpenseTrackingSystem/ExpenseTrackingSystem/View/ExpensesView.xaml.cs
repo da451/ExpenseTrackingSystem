@@ -1,17 +1,14 @@
 ﻿using System.Windows;
 using ExpenseTrackingSystem.Notifications;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace ExpenseTrackingSystem.View
 {
-    /// <summary>
-    /// Description for ExpensesView.
-    /// </summary>
+
     public partial class ExpensesView : Window
     {
-        /// <summary>
-        /// Initializes a new instance of the ExpensesView class.
-        /// </summary>
+
         public ExpensesView()
         {
             InitializeComponent();
@@ -29,21 +26,37 @@ namespace ExpenseTrackingSystem.View
                             this.Close();
                         }
                     }
+                });
+                Messenger.Default.Register<NotificationMessageAction>(this, message =>
+                {
+                    if (message.Notification == MessengerMessage.OPEN_EXPENSE_EDIT_FORM)
+                    {
+                        ExpenseEditView expenseEditView = new ExpenseEditView();
+
+                        ExpenseEditViewModel expenseEditViewModel = expenseEditView.DataContext as ExpenseEditViewModel;
+
+                        if (expenseEditViewModel != null && message.Sender is int)
+                        {
+                            expenseEditViewModel.ExpenseID = (int) message.Sender;
+                        }
+
+                        expenseEditView.ShowDialog();
+
+                        message.Execute();
+                    }
 
                     if (message.Notification == MessengerMessage.OPEN_TAGS_FORM)
                     {
                         TagsView tagsView = new TagsView();
 
                         tagsView.ShowDialog();
+
+                        message.Execute();
                     }
 
-                    if (message.Notification == MessengerMessage.OPEN_EXPENSE_EDIT_FORM)
-                    {
-                        ExpenseEditView expenseEditView = new ExpenseEditView();
 
-                        expenseEditView.ShowDialog();
-                    }
                 });
+
             };
 
             Closed += (s, e) =>
