@@ -55,6 +55,8 @@ namespace ExpenseTrackingSystem.View
             Closed+= (s, e) =>
             {
                 Messenger.Default.Unregister(this);
+
+                DataContext = null;
             };
         }
     }

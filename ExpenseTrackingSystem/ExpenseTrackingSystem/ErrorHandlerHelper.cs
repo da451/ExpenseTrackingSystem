@@ -20,5 +20,13 @@ namespace ExpenseTrackingSystem
                 }
             });
         }
+
+        public static void SendError(string notification, Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            Messenger.Default.Send<NotificationMessage<string>>(
+                new NotificationMessage<string>(ex.ToString(), notification));
+        }
     }
 }

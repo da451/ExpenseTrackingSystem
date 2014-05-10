@@ -25,10 +25,7 @@ namespace ExpenseTrackingSystem.View
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-
-                Messenger.Default.Send<NotificationMessage<string>>(
-                    new NotificationMessage<string>(e.ToString(),MessengerMessage.ERROR_MESSAGE_EXPENSE_EDIT));
+                ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_EXPENSE_EDIT, e);
 
                 CloseFormCommand.Execute(null);
             }
@@ -225,6 +222,33 @@ namespace ExpenseTrackingSystem.View
         }
 
 
+        /// <summary>
+        /// The <see cref="NewTag" /> property's name.
+        /// </summary>
+        public const string NewTagPropertyName = "NewTag";
+
+        private TagModel _newTag;
+
+        public TagModel NewTag
+        {
+            get
+            {
+                return _newTag;
+            }
+
+            set
+            {
+                if (_newTag == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(NewTagPropertyName);
+                _newTag = value;
+                RaisePropertyChanged(NewTagPropertyName);
+            }
+        }
+
         
         private RelayCommand _saveExpenseCommand;
 
@@ -268,8 +292,9 @@ namespace ExpenseTrackingSystem.View
                                               {
                                                   Console.WriteLine(e);
 
-                                                  Messenger.Default.Send<NotificationMessage<string>>(
-                                                      new NotificationMessage<string>(e.ToString(), MessengerMessage.ERROR_MESSAGE_EXPENSE_EDIT));
+
+                                                  ErrorHandlerHelper.SendError( MessengerMessage.ERROR_MESSAGE_EXPENSE_EDIT, e);
+
                                               }
                                               CloseFormCommand.Execute(null);
 
@@ -290,6 +315,35 @@ namespace ExpenseTrackingSystem.View
             }
         }
 
+
+        private RelayCommand _saveTagCommand;
+
+        public RelayCommand SaveTagCommand
+        {
+            get
+            {
+                return _saveTagCommand
+                    ?? (_saveTagCommand = new RelayCommand(
+                                          () =>
+                                          {
+                                              try
+                                              {
+                                                  NewTag.Save();
+
+                                                  Tags.Add(NewTag);
+
+                                                  SelectedTag = NewTag;
+
+                                                  NewTag = null;
+                                              }
+                                              catch (Exception e)
+                                              {
+                                                  ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_EXPENSE_EDIT, e);
+                                              }
+                                          },
+                                          () => NewTag != null && !string.IsNullOrEmpty(NewTag.Name)));
+            }
+        }
 
 
         private bool IsAllFieldValid()

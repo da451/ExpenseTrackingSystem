@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DAL.Entities;
 using DAL.Repository.Imp;
@@ -21,9 +22,16 @@ namespace ExpenseTrackingSystem.ViewModel
     {
         public TagsViewModel()
         {
-            Tags = new TagCollection();
+            try
+            {
+                Tags = new TagCollection();
 
-            Tags.LoadTagsCommand.Execute(null);
+                Tags.LoadTagsCommand.Execute(null);
+            }
+            catch (Exception e)
+            {
+                ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_TAGS,e);
+            }
         }
 
 
@@ -180,12 +188,20 @@ namespace ExpenseTrackingSystem.ViewModel
                     ?? (_saveTagCommand = new RelayCommand(
                                           () =>
                                           {
-                                              NewTag.Save();
+                                              try
+                                              {
+                                                  NewTag.Save();
 
-                                              Tags.Add(NewTag);
+                                                  Tags.Add(NewTag);
 
-                                              NewTag = null;
-                                          }));
+                                                  NewTag = null;
+                                              }
+                                              catch (Exception e)
+                                              {
+                                                  ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_TAGS,e);
+                                              }
+                                          },
+                                          () => NewTag != null && !string.IsNullOrEmpty(NewTag.Name)));
             }
         }
 
@@ -203,11 +219,18 @@ namespace ExpenseTrackingSystem.ViewModel
                     ?? (_updateTagCommand = new RelayCommand(
                                           () =>
                                           {
-                                              _selectedTag.Update();
+                                              try
+                                              {
+                                                  _selectedTag.Update();
 
-                                              _stateSelectedTag.Name = _selectedTag.Name;
+                                                  _stateSelectedTag.Name = _selectedTag.Name;
 
-                                              _isNeedUpdating = false;
+                                                  _isNeedUpdating = false;
+                                              }
+                                              catch (Exception e)
+                                              {
+                                                  ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_TAGS, e);
+                                              }
                                           },
                                           () => _isNeedUpdating));
             }
@@ -225,15 +248,22 @@ namespace ExpenseTrackingSystem.ViewModel
                     ?? (_deleteTagCommand = new RelayCommand(
                                           () =>
                                           {
-                                              _selectedTag.Delete();
+                                              try
+                                              {
+                                                  _selectedTag.Delete();
 
-                                              _tags.Remove(_selectedTag);
+                                                  _tags.Remove(_selectedTag);
 
-                                              _tagName = "";
+                                                  _tagName = "";
 
-                                              _selectedTag = null;
+                                                  _selectedTag = null;
 
-                                              _stateSelectedTag = null;
+                                                  _stateSelectedTag = null;
+                                              }
+                                              catch (Exception e)
+                                              {
+                                                  ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_TAGS, e);
+                                              }
                                           }));
             }
         }

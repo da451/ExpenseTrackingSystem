@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ExpenseTrackingSystem.Notifications;
+using ExpenseTrackingSystem.ViewModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -13,6 +14,7 @@ namespace ExpenseTrackingSystem.View
         {
             InitializeComponent();
 
+            DataContext = new ExpensesViewModel();
             Loaded += (s, e) =>
             {
                 Messenger.Default.Register<NotificationMessage>(this, message =>
@@ -27,6 +29,7 @@ namespace ExpenseTrackingSystem.View
                         }
                     }
                 });
+
                 Messenger.Default.Register<NotificationMessageAction>(this, message =>
                 {
                     if (message.Notification == MessengerMessage.OPEN_EXPENSE_EDIT_FORM)
@@ -54,7 +57,18 @@ namespace ExpenseTrackingSystem.View
                         message.Execute();
                     }
 
+                    if (message.Notification == MessengerMessage.DELETE_EXPENSE)
+                    {
+                        if (
+                            MessageBox.Show(this, "Do you want to delete this expense?", "Deete?",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        {
+                            message.Execute();
+                        }
+                    }
 
+                    ErrorHandlerHelper.RegistrateErrorHandler(this, MessengerMessage.ERROR_MESSAGE_EXPENSES);
                 });
 
             };

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,9 +18,20 @@ namespace ExpenseTrackingSystem.ViewModel
     {
         public ExpensesViewModel()
         {
-            _listOfExpenses =new ExpenseCollection();
 
-            _listOfExpenses.LoadExpensesCommand.Execute(null);
+
+            _listOfExpenses = new ExpenseCollection();
+            try
+            {
+                ListOfExpenses.LoadExpensesCommand.Execute(null);
+            }
+            catch (Exception e)
+            {
+                ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_EXPENSES, e);
+            }
+            
+
+
         }
 
 
@@ -152,11 +164,10 @@ namespace ExpenseTrackingSystem.ViewModel
                     ?? (_deleteExpenseCommand = new RelayCommand(
                                           () =>
                                           {
-                                              SelectedExpense.Delete();
+                                              Messenger.Default.Send<NotificationMessageAction>(
+                                                  new NotificationMessageAction(SelectedExpense.ExpenseID, MessengerMessage.DELETE_EXPENSE, DeleteExpense));
 
-                                              _listOfExpenses.Remove(SelectedExpense);
 
-                                              SelectedExpense = null;
                                           }));
             }
         }
@@ -176,6 +187,23 @@ namespace ExpenseTrackingSystem.ViewModel
                 SelectedExpense = _listOfExpenses.Where(o => o.ExpenseID == selectedExpenseID).FirstOrDefault();
             }
 
+        }
+
+
+        private void DeleteExpense()
+        {
+            try
+            {
+                SelectedExpense.Delete();
+
+                _listOfExpenses.Remove(SelectedExpense);
+
+                SelectedExpense = null;
+            }
+            catch (Exception e)
+            {
+                ErrorHandlerHelper.SendError(MessengerMessage.ERROR_MESSAGE_EXPENSES, e);
+            }
         }
     }
 }

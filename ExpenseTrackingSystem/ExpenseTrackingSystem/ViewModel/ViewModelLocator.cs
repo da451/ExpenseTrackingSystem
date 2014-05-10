@@ -31,17 +31,21 @@ namespace ExpenseTrackingSystem.ViewModel
     {
         static ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<ExpensesViewModel>();
+                SimpleIoc.Default.Register<ExpensesViewModel>();
 
-            SimpleIoc.Default.Register<MainViewModel>();
+                SimpleIoc.Default.Register<MainViewModel>();
+                SimpleIoc.Default.Register<LogInViewModel>();
 
-            SimpleIoc.Default.Register<LogInViewModel>();
+                SimpleIoc.Default.Register<TagsViewModel>();
 
-            SimpleIoc.Default.Register<TagsViewModel>();
+                SimpleIoc.Default.Register<ExpenseEditViewModel>();
+            }
 
-            SimpleIoc.Default.Register<ExpenseEditViewModel>();
+            
 
             FNHHelper.CreateInstance(Properties.Settings.Default.ConnectionString);
         }
@@ -56,7 +60,10 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                if (ViewModelBase.IsInDesignModeStatic)
+                    return ServiceLocator.Current.GetInstance<MainViewModel>();
+                else
+                    return null;
             }
         }
 
@@ -64,7 +71,11 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<LogInViewModel>();
+                if (ViewModelBase.IsInDesignModeStatic)
+                    return ServiceLocator.Current.GetInstance<LogInViewModel>();
+                else
+                    return null;
+
             }
         }
 
@@ -72,30 +83,36 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             get
             {
-                TagsViewModel tags = ServiceLocator.Current.GetInstance<TagsViewModel>();
-
                 if (ViewModelBase.IsInDesignModeStatic)
                 {
-                    tags.Tags.Add(new TagModel()
-                    {
-                        Name = "Food",
-                        TagID = 1
-                    });
+                    TagsViewModel tags = ServiceLocator.Current.GetInstance<TagsViewModel>();
 
-                    tags.Tags.Add(new TagModel()
+                    if (ViewModelBase.IsInDesignModeStatic)
                     {
-                        Name = "Car",
-                        TagID = 2
-                    });
+                        tags.Tags.Add(new TagModel()
+                        {
+                            Name = "Food",
+                            TagID = 1
+                        });
 
-                    tags.Tags.Add(new TagModel()
-                    {
-                        Name = "Pet",
-                        TagID = 3
-                    });
+                        tags.Tags.Add(new TagModel()
+                        {
+                            Name = "Car",
+                            TagID = 2
+                        });
+
+                        tags.Tags.Add(new TagModel()
+                        {
+                            Name = "Pet",
+                            TagID = 3
+                        });
+                    }
+
+                    return tags;
                 }
+                else
+                    return null;
 
-                return tags;
 
             }
         }
@@ -104,54 +121,60 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             get
             {
-                ExpensesViewModel e = ServiceLocator.Current.GetInstance<ExpensesViewModel>();
-
                 if (ViewModelBase.IsInDesignModeStatic)
                 {
-                    UserModel user = new UserModel()
+                    ExpensesViewModel e = ServiceLocator.Current.GetInstance<ExpensesViewModel>();
+
+                    if (ViewModelBase.IsInDesignModeStatic)
                     {
-                        FIO = "Z D A",
-                        Login = "da451",
-                        UserID = 1
-                    };
+                        UserModel user = new UserModel()
+                        {
+                            FIO = "Z D A",
+                            Login = "da451",
+                            UserID = 1
+                        };
 
-                    TagModel tag = new TagModel() {Name = "Food", TagID = 1, User = user};
+                        TagModel tag = new TagModel() { Name = "Food", TagID = 1, User = user };
 
-                    TagModel tag2 = new TagModel() { Name = "Car", TagID = 2, User = user };
+                        TagModel tag2 = new TagModel() { Name = "Car", TagID = 2, User = user };
 
-                    e.ListOfExpenses.Add(new ExpenseModel()
-                    {
-                        Comment = "Milk",
-                        Date = DateTime.Now,
-                        ExpenseID = 1,
-                        Spend = 451,
-                        Tag = tag,
-                        User = user
-                    });
+                        e.ListOfExpenses.Add(new ExpenseModel()
+                        {
+                            Comment = "Milk",
+                            Date = DateTime.Now,
+                            ExpenseID = 1,
+                            Spend = 451,
+                            Tag = tag,
+                            User = user
+                        });
 
-                    e.ListOfExpenses.Add(new ExpenseModel()
-                    {
-                        Comment = "Bread",
-                        Date = DateTime.Now,
-                        ExpenseID = 2,
-                        Spend = 100,
-                        Tag = tag,
-                        User = user
-                    });
+                        e.ListOfExpenses.Add(new ExpenseModel()
+                        {
+                            Comment = "Bread",
+                            Date = DateTime.Now,
+                            ExpenseID = 2,
+                            Spend = 100,
+                            Tag = tag,
+                            User = user
+                        });
 
-                    e.ListOfExpenses.Add(new ExpenseModel()
-                    {
-                        Comment = "Gas and alot of letters! And more... and more... and more... a littel more",
-                        Date = DateTime.Now,
-                        ExpenseID = 3,
-                        Spend = 2000,
-                        Tag = tag2,
-                        User = user
-                    });
+                        e.ListOfExpenses.Add(new ExpenseModel()
+                        {
+                            Comment = "Gas and alot of letters! And more... and more... and more... a littel more",
+                            Date = DateTime.Now,
+                            ExpenseID = 3,
+                            Spend = 2000,
+                            Tag = tag2,
+                            User = user
+                        });
 
+                    }
+
+                    return e;
                 }
+                else
+                    return null;
 
-                return e;
 
             }
         }
@@ -160,7 +183,11 @@ namespace ExpenseTrackingSystem.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ExpenseEditViewModel>();
+                if (ViewModelBase.IsInDesignModeStatic)
+                    return ServiceLocator.Current.GetInstance<ExpenseEditViewModel>();
+                else
+                    return null;
+
             }
         }
         /// <summary>

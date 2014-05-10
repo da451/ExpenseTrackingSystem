@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ExpenseTrackingSystem.Notifications;
+using ExpenseTrackingSystem.ViewModel;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace ExpenseTrackingSystem.View
@@ -16,6 +17,8 @@ namespace ExpenseTrackingSystem.View
         public LogInView()
         {
             InitializeComponent();
+
+            DataContext = new LogInViewModel();
 
             Loaded += (s, e) =>
             {
