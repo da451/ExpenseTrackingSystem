@@ -28,13 +28,13 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Content="NEW EXPENSE" Margin="3" Padding="0" Command="{Binding CreateNewExpenseCommand}" ></Button>
+                <Button Grid.Column="0" Content="NEW EXPENSE" Margin="3" Padding="0" Command="{Binding CreateNewExpenseCommand}" IsDefault="True" ></Button>
 
                 <Button Grid.Column="1" Content="EDIT TAGS" Command="{Binding OpenTagsFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+
+                <Button Grid.Column="2" Content="STATISTICS"  Command="{Binding OpenStatisticFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
                     
-                <Button Grid.Column="2" Content="STATISTICS" Margin="0,3,3,3" Padding="0"></Button>
-                    
-                <Button Grid.Column="3" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0"></Button>
+                <Button Grid.Column="3" Content="EXIT" Command="{Binding CloseFormCommand}" Margin="0,3,3,3" Padding="0" IsCancel="True"></Button>
                 </Grid>
             </Border>
 

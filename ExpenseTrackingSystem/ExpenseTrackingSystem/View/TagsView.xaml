@@ -27,13 +27,13 @@
                     
                     <Border  Grid.Column="0" BorderBrush="DimGray" BorderThickness="2">
                         <DockPanel LastChildFill="True">
-                            <Button DockPanel.Dock="Right" Content="NEW TAG"  Margin="3" Padding="0" Command="{Binding SaveTagCommand}"></Button>
+                            <Button DockPanel.Dock="Right" Content="NEW TAG"  Margin="3" Padding="0" Command="{Binding SaveTagCommand}" IsDefault="True"></Button>
 
                             <TextBox Margin="3,3,0,3" Text="{Binding Path=NewTag, Converter={StaticResource TextToTagConverter }, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
                         </DockPanel>
                     </Border>
                     
-                    <Button Grid.Column="1" Content="CLOSE" Command="{Binding CloseFormCommand}" Margin="3" Padding="0"></Button>
+                    <Button Grid.Column="1" Content="CLOSE" Command="{Binding CloseFormCommand}" Margin="3" Padding="0" IsCancel="True"></Button>
                 </Grid>
             </Border>
 

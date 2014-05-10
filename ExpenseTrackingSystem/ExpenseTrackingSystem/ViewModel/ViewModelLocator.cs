@@ -43,6 +43,8 @@ namespace ExpenseTrackingSystem.ViewModel
                 SimpleIoc.Default.Register<TagsViewModel>();
 
                 SimpleIoc.Default.Register<ExpenseEditViewModel>();
+
+                SimpleIoc.Default.Register<StaticticsViewModel>();
             }
 
             
@@ -188,6 +190,17 @@ namespace ExpenseTrackingSystem.ViewModel
                 else
                     return null;
 
+            }
+        }
+
+        public StaticticsViewModel Statictics
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic)
+                    return ServiceLocator.Current.GetInstance<StaticticsViewModel>();
+                else
+                    return null;
             }
         }
         /// <summary>

@@ -50,8 +50,38 @@ namespace ExpenseTrackingSystem.Model
                 uow.RollBack();
                 throw;
             }
+        }
 
 
+
+        public void LoadGroupByTag(DateTime dateFrom, DateTime dateTo)
+        {
+            UnitOfWork uow = new UnitOfWork();
+
+            Clear();
+
+            try
+            {
+                RepositoryExpense repositoryExpense = new RepositoryExpense(uow);
+
+                uow.BeginTransaction();
+
+                int userID = AuthorizationService.GetUserID();
+
+                IEnumerable<Expense> expenses = repositoryExpense.GetExpensesByTag(userID, dateFrom, dateTo);
+
+                foreach (var expense in expenses)
+                {
+                    Add(expense.ToModel());
+                }
+
+                uow.Commit();
+            }
+            catch
+            {
+                uow.RollBack();
+                throw;
+            }
         }
     }
 }

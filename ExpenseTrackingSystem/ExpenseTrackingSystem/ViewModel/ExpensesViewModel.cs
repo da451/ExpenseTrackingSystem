@@ -116,6 +116,24 @@ namespace ExpenseTrackingSystem.ViewModel
             }
         }
 
+        
+
+        private RelayCommand _openStatisticFormCommand;
+
+        public RelayCommand OpenStatisticFormCommand
+        {
+            get
+            {
+                return _openStatisticFormCommand
+                    ?? (_openStatisticFormCommand = new RelayCommand(
+                                          () =>
+                                          {
+                                               Messenger.Default.Send<NotificationMessage>(
+                                              new NotificationMessage(MessengerMessage.OPEN_STATISTICS_FORM));
+                                          }));
+            }
+        }
+
 
 
         private RelayCommand _createNewExpenseCommand;
@@ -133,6 +151,7 @@ namespace ExpenseTrackingSystem.ViewModel
                                           }));
             }
         }
+
 
 
         private RelayCommand _updateExpenseCommand;
@@ -153,9 +172,8 @@ namespace ExpenseTrackingSystem.ViewModel
 
         private RelayCommand _deleteExpenseCommand;
 
-        /// <summary>
-        /// Gets the DeleteExpenseCommand.
-        /// </summary>
+
+
         public RelayCommand DeleteExpenseCommand
         {
             get

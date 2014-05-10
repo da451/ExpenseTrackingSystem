@@ -65,8 +65,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button  Content="Registration" Margin="4,4,2,4" Command="{Binding UserRegistrationCommand}"></Button>
-            <Button  Grid.Column="1" Content="Cancel" Margin="2,4,4,4" Command="{Binding Path=CloseRegistrationFormCommand}"></Button>
+            <Button  Content="Registration" Margin="4,4,2,4" Command="{Binding UserRegistrationCommand}" IsDefault="True"></Button>
+            <Button  Grid.Column="1" Content="Cancel" Margin="2,4,4,4" Command="{Binding Path=CloseRegistrationFormCommand}" IsCancel="True"></Button>
         </Grid>
 
     </Grid>

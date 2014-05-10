@@ -28,6 +28,15 @@ namespace ExpenseTrackingSystem.View
                             this.Close();
                         }
                     }
+
+
+                    if (message.Notification == MessengerMessage.OPEN_STATISTICS_FORM)
+                    {
+                        StatisticsView statisticsView = new StatisticsView();
+
+                        statisticsView.ShowDialog();
+                    }
+                    
                 });
 
                 Messenger.Default.Register<NotificationMessageAction>(this, message =>
