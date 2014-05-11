@@ -109,24 +109,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -146,14 +128,12 @@
     <Compile Include="Model\TagCollection.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Notifications\MessengerMessage.cs" />
-    <Compile Include="PasswordBoxAssistant.cs" />
     <Compile Include="Principal.cs" />
     <Compile Include="Util\ConvertingUtil.cs" />
     <Compile Include="Validation\NoSpacesValidationRule.cs" />
     <Compile Include="Validation\NotEmptyValidationRule.cs" />
     <Compile Include="ViewModel\ExpensesViewModel.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\TagsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -177,16 +157,8 @@
     <Compile Include="View\TagsView.xaml.cs">
       <DependentUpon>TagsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Skins\MainSkin.xaml">
@@ -276,6 +248,7 @@
     <Content Include="MyDB.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

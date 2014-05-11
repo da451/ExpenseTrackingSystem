@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DAL.Entities;
 using NHibernate.Linq;
 
@@ -8,9 +9,14 @@ namespace DAL.Repository.Imp
     {
         protected UnitOfWork _unitOfWork;
 
-        public RepositoryBase(UnitOfWork uow)
-        {
-            _unitOfWork = uow;
+        public RepositoryBase(IUoW uow)
+        { 
+            _unitOfWork = uow  as UnitOfWork;
+
+            if (_unitOfWork == null)
+            {
+                throw new ArgumentException("Not correct implimitation of IUoW");
+            }
         }
 
         #region IRepository<T> Members

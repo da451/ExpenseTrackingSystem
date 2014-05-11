@@ -4,9 +4,10 @@ using NHibernate.Criterion;
 
 namespace DAL.Repository.Imp
 {
-    public class RepositoryTag: RepositoryBase<Tag>
+    public class RepositoryTag: RepositoryBase<Tag>, IRepositoryTag
     {
-        public RepositoryTag(UnitOfWork uow) : base(uow)
+        public RepositoryTag(IUoW uow)
+            : base(uow)
         {
         }
 

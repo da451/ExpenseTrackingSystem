@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using DAL.Repository;
 using DAL.Repository.Imp;
 
 namespace ExpenseTrackingSystem
@@ -8,14 +9,14 @@ namespace ExpenseTrackingSystem
     {
         public static int LogIn(string login, string password)
         {
-            UnitOfWork uow = new UnitOfWork();
+            IUoW uow = new UnitOfWork();
 
             int userID;
             try
             {
                 uow.BeginTransaction();
 
-                RepositoryUser repositoryUser = new RepositoryUser(uow);
+                IRepositoryUser repositoryUser = new RepositoryUser(uow);
 
                 userID = repositoryUser.LogIn(login, password);
 

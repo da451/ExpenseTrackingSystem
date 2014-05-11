@@ -37,7 +37,6 @@ namespace ExpenseTrackingSystem.ViewModel
 
                 SimpleIoc.Default.Register<ExpensesViewModel>();
 
-                SimpleIoc.Default.Register<MainViewModel>();
                 SimpleIoc.Default.Register<LogInViewModel>();
 
                 SimpleIoc.Default.Register<TagsViewModel>();
@@ -48,7 +47,6 @@ namespace ExpenseTrackingSystem.ViewModel
             }
 
             
-
             FNHHelper.CreateInstance(Properties.Settings.Default.ConnectionString);
         }
 
@@ -58,16 +56,6 @@ namespace ExpenseTrackingSystem.ViewModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public MainViewModel Main
-        {
-            get
-            {
-                if (ViewModelBase.IsInDesignModeStatic)
-                    return ServiceLocator.Current.GetInstance<MainViewModel>();
-                else
-                    return null;
-            }
-        }
 
         public LogInViewModel LogIn
         {

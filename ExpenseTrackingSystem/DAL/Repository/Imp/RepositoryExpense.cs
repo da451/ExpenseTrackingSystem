@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DAL.Entities;
 using NHibernate.Criterion;
 
 namespace DAL.Repository.Imp
 {
-    public class RepositoryExpense: RepositoryBase<Expense>
+
+
+    public class RepositoryExpense: RepositoryBase<Expense>, IRepositoryExpense
     {
-        public RepositoryExpense(UnitOfWork uow) : base(uow)
+        public RepositoryExpense(IUoW uow)
+            : base(uow)
         {
         }
 

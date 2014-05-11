@@ -5,9 +5,9 @@ using NHibernate.Criterion;
 
 namespace DAL.Repository.Imp
 {
-    public class RepositoryUser: RepositoryBase<User>
+    public class RepositoryUser: RepositoryBase<User>, IRepositoryUser
     {
-        public RepositoryUser(UnitOfWork uow) : base(uow)
+        public RepositoryUser(IUoW uow) : base(uow)
         {
         }
 

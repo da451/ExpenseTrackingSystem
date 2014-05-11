@@ -65,12 +65,15 @@
     <Compile Include="Mapping\TagMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepositoryTag.cs" />
+    <Compile Include="Repository\IRepositoryUser.cs" />
     <Compile Include="Repository\Imp\RepositoryBase.cs" />
     <Compile Include="Repository\Imp\RepositoryExpense.cs" />
     <Compile Include="Repository\Imp\RepositoryTag.cs" />
     <Compile Include="Repository\Imp\RepositoryUser.cs" />
     <Compile Include="Repository\Imp\UnitOfWork.cs" />
     <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\IRepositoryExpense.cs" />
     <Compile Include="Repository\IUoW.cs" />
     <Compile Include="Util\EncryptUtil.cs" />
   </ItemGroup>
