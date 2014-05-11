@@ -56,32 +56,39 @@
     <Reference Include="DevExpress.Data.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Printing.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="devexpress.xpf.charts.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Xpf.Core.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="devexpress.xpf.grid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Grid.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="devexpress.xpf.grid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Mvvm.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="GalaSoft.MvvmLight.WPF4">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\GalaSoft.MvvmLight.WPF4.dll</HintPath>
+    <Reference Include="DevExpress.Xpf.Printing.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF4">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\GalaSoft.MvvmLight.Extras.WPF4.dll</HintPath>
+      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net40\GalaSoft.MvvmLight.Extras.WPF4.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.WPF4">
+      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net40\GalaSoft.MvvmLight.WPF4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DAL\bin\Debug\System.Data.SqlServerCe.dll</HintPath>
@@ -130,8 +137,6 @@
     <Compile Include="Notifications\MessengerMessage.cs" />
     <Compile Include="Principal.cs" />
     <Compile Include="Util\ConvertingUtil.cs" />
-    <Compile Include="Validation\NoSpacesValidationRule.cs" />
-    <Compile Include="Validation\NotEmptyValidationRule.cs" />
     <Compile Include="ViewModel\ExpensesViewModel.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
