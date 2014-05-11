@@ -18,17 +18,6 @@
         
         <validation:NoSpacesValidationRule x:Key="NoSpacesValidationRule"></validation:NoSpacesValidationRule>
             
-        <ControlTemplate x:Key="ValidationErrorTemplate">
-            <DockPanel>
-                <Border VerticalAlignment="Stretch" DockPanel.Dock="Left">
-                    <Label Foreground="Red" VerticalAlignment="Center" FontSize="14" Content="*" 
-                           ToolTip="{Binding Path=/ErrorContent}">
-                    </Label>
-                </Border>
-                <AdornedElementPlaceholder/>
-            </DockPanel>
-        </ControlTemplate>
-
         <converter:VisibilityConverter x:Key="VisibilityConverter"></converter:VisibilityConverter>
 
         <converter:TextToTagConverter x:Key="TextToTagConverter"></converter:TextToTagConverter>

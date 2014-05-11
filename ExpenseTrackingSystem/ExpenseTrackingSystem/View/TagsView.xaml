@@ -1,9 +1,10 @@
-﻿<Window x:Class="ExpenseTrackingSystem.View.TagsView"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.ignore.com"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="ExpenseTrackingSystem.View.TagsView"
         mc:Ignorable="d ignore"
         Height="400"
         Width="300"
@@ -14,65 +15,64 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Border  HorizontalAlignment="Stretch" DockPanel.Dock="Right" BorderThickness="1" BorderBrush="DimGray" Margin="1 7 1 1" Padding="5" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Border  Grid.Column="0" BorderBrush="DimGray" BorderThickness="2">
                         <DockPanel LastChildFill="True">
-                            <Button DockPanel.Dock="Right" Content="NEW TAG"  Margin="3" Padding="0" Command="{Binding SaveTagCommand}" IsDefault="True"></Button>
-
-                            <TextBox Margin="3,3,0,3" Text="{Binding Path=NewTag, Converter={StaticResource TextToTagConverter }, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                            <Button DockPanel.Dock="Right" Content="NEW TAG"  Margin="3" Padding="0" Command="{Binding SaveTagCommand}" IsDefault="True"/>
+                            
+                            <dxe:TextEdit Margin="3,3,0,3" Text="{Binding NewTag, Converter={StaticResource TextToTagConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </Border>
-                    
-                    <Button Grid.Column="1" Content="CLOSE" Command="{Binding CloseFormCommand}" Margin="3" Padding="0" IsCancel="True"></Button>
+
+                    <Button Grid.Column="1" Content="CLOSE" Command="{Binding CloseFormCommand}" Margin="3" Padding="0" IsCancel="True"/>
                 </Grid>
             </Border>
 
-            <ListView Grid.Row="1" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListView Grid.Row="1" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border Name="ItemBorder"  BorderBrush="DimGray" BorderThickness="3" Margin="4" >
+                        <Border x:Name="ItemBorder"  BorderBrush="DimGray" BorderThickness="3" Margin="4" >
                             <StackPanel Orientation="Vertical">
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50" ></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Content="TAG:"></Label>
+                                    <Label Content="TAG:"/>
 
                                     <TextBlock Grid.Column="1" Margin="3" Text="{Binding Name}" Style="{StaticResource TextBlockStyle}" 
-                                               Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}}"></TextBlock>
+										Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}}"/>
 
-                                    <TextBox Grid.Column="1" Margin="3"
-                                             Text="{Binding Path=DataContext.TagName, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}" 
-                                             Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Converter={StaticResource VisibilityConverter}}"></TextBox>
+                                    <dxe:TextEdit Grid.Column="1" Margin="3"
+										Text="{Binding DataContext.TagName, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" 
+										Visibility="{Binding IsSelected, Converter={StaticResource VisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}}"/>
 
                                     <Button Grid.Column="2" x:Name="SaveButton" Content="SAVE" Margin="4,4,4,4"
-                                                Visibility="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
-                                            Converter={StaticResource VisibilityConverter}}"
-                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.UpdateTagCommand}"/>
+										Visibility="{Binding IsSelected, Converter={StaticResource VisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}}"
+										Command="{Binding DataContext.UpdateTagCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
 
-                                    
+
                                 </Grid>
-                                
+
                             </StackPanel>
                         </Border>
-                        
+
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}, Path=IsSelected}" Value="True">
-                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DarkRed"></Setter>
+                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}}" Value="True">
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DarkRed"/>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>

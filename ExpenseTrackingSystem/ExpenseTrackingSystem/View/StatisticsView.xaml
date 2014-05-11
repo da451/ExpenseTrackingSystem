@@ -10,6 +10,8 @@
         MinWidth="800"
         Height="800"
         Width="800"
+        Title="Statistic Form"
+        WindowStartupLocation="CenterScreen"
         DataContext="{Binding Statictics, Source={StaticResource Locator}}">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>

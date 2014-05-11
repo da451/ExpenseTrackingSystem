@@ -9,18 +9,19 @@
         Width="250"
         Height="250"
         xmlns:ets ="clr-namespace:ExpenseTrackingSystem"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="Label" >
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="TextBox">
+        <Style TargetType="dxe:TextEdit">
             <Setter Property="Margin" Value="0 7 7 7" />
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         </Style>
         
-        <Style TargetType="PasswordBox">
+        <Style TargetType="dxe:PasswordBoxEdit">
             <Setter Property="Margin" Value="0 7 7 7" />
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         </Style>
@@ -42,23 +43,21 @@
         <Label Grid.Row="1" Content="Login:"></Label>
         <Label Grid.Row="2" Content="Password:"></Label>
         <Label Grid.Row="3" Content="Confirm:"></Label>
-        
-        <TextBox Grid.Row="0" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+
+        <dxe:TextEdit Grid.Row="0" Grid.Column="1"
                  Text="{Binding FIO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
         
-        <TextBox Grid.Row="1" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" 
+        <dxe:TextEdit Grid.Row="1" Grid.Column="1" 
                  Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
         
-        <PasswordBox Grid.Row="2" Grid.Column="1" PasswordChar="*" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                     ets:PasswordBoxAssistant.BindPassword="true"  
-                     ets:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+        <dxe:PasswordBoxEdit Grid.Row="2" Grid.Column="1" 
+                     Password="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
             ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        
-        <PasswordBox Grid.Row="3" Grid.Column="1" PasswordChar="*" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                     ets:PasswordBoxAssistant.BindPassword="true"
-                     ets:PasswordBoxAssistant.BoundPassword="{Binding Path=ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+
+        <dxe:PasswordBoxEdit Grid.Row="3" Grid.Column="1"
+                     Password="{Binding Path=ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
             ValidatesOnDataErrors=True, ValidatesOnExceptions=True}">
-        </PasswordBox>
+        </dxe:PasswordBoxEdit>
         
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
